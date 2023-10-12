@@ -14,7 +14,7 @@ public class SignUpRequest {
 	 String password;
 
 
-	public String getFirstName() {
+/*	public String getFirstName() {
 		return firstName;
 	}
 
@@ -46,7 +46,7 @@ public class SignUpRequest {
 		this.password = password;
 	}
 
-	
+	*/
 	
 	
 }

@@ -1,6 +1,7 @@
 package org.comit.pluralisticsecurity.config;
 
 import org.comit.pluralisticsecurity.entity.Role;
+import org.comit.pluralisticsecurity.entity.RoleEnum;
 import org.comit.pluralisticsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,16 +26,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 	@Autowired
-	 JWTAuthenticationFilter jwtAuthenticationFilter;
+	private final JWTAuthenticationFilter jwtAuthenticationFilter;
 	@Autowired
-	 UserService userService;
+	private final UserService userService;
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**").permitAll()
-													 .requestMatchers("/api/v1/admin").hasAnyAuthority(Role.ADMIN.name())
-													 .requestMatchers("/api/v1/user").hasAnyAuthority(Role.USER.name())
+													 .requestMatchers("/api/v1/admin").hasAnyAuthority(RoleEnum.ADMIN.name())
+													 .requestMatchers("/api/v1/user").hasAnyAuthority(RoleEnum.USER.name())
 													 .anyRequest().authenticated())
 												
 													.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

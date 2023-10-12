@@ -8,7 +8,7 @@ public class JwtAuthenticationResponse {
 	String token;
 	String refreshToken;
 
-	public String getToken() {
+	/*public String getToken() {
 		return token;
 	}
 
@@ -23,5 +23,5 @@ public class JwtAuthenticationResponse {
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
 	}
-
+*/
 }

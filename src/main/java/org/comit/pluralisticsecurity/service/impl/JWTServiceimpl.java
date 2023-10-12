@@ -50,18 +50,18 @@ public class JWTServiceimpl implements JWTService {
 	//extract username from the token
 	//extract the claims from the token
 	
-	public <T> T extractClaim(String token, Function<Claims, T> claimResolvers) {
+	private <T> T extractClaim(String token, Function<Claims, T> claimResolvers) {
 		final Claims claims = extractAllClaims(token);
 		return claimResolvers.apply(claims);
 	}
 
-	public Key getSignKey() {
+	private Key getSignKey() {
 		byte[] key = Decoders.BASE64.decode("413F4428472B4B6250655368566D5970337336763979244226452948404D6351");
 		return Keys.hmacShaKeyFor(key);
 	}
 
 	//this method will return all the claims from the token
-	public Claims extractAllClaims(String token) {
+	private Claims extractAllClaims(String token) {
 
 		return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
 	}
@@ -73,7 +73,7 @@ public class JWTServiceimpl implements JWTService {
 	}
 
 	//get expiration date and checks with current date
-	public boolean isTokenExpired(String token) {
+	private boolean isTokenExpired(String token) {
 
 		return extractClaim(token, Claims::getExpiration).before(new Date());
 	}
