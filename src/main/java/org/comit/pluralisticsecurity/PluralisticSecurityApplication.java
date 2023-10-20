@@ -39,8 +39,8 @@ public class PluralisticSecurityApplication implements CommandLineRunner {
 			
 			
 			user.setEmail("admin@gmail.com");
-			user.setFirstname("admin");
-			user.setLastname("admin");
+			user.setFirstName("admin");
+			user.setLastName("admin");
 			//user.setRole(Roles.ADMIN);
 			user.setPassword(new BCryptPasswordEncoder().encode("admin"));
 			userRole.setRole(role);

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole,Long> {
 	//UserRole userRole = new UserRole();
-			@Query(value = "SELECT * FROM USER_ROLE WHERE ID_ROLE = ?1",nativeQuery = true)
+			@Query(value = "SELECT * FROM USER_ROLES WHERE ROLE_ID = ?1",nativeQuery = true)
 			 Optional<UserRole> findByRole(int role);
 			//User findByRole(User user);
 }
