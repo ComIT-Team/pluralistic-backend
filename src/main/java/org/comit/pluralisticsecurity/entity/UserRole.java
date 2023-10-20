@@ -8,23 +8,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
-@Table(name="USER_ROLE")
+@Table(name = "user_roles") // Using plural table name
+@Data
 public class UserRole {
-	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_USER_ROLE")
-	Integer idUserRole;
-	
-	@ManyToOne
-	@JoinColumn(name="ID_USER")
-	User user;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Integer idUserRole;
 
 	@ManyToOne
-	@JoinColumn(name="ID_ROLE")
-	Role role;
+	@JoinColumn(name = "user_id")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	private Role role;
 	
 	
 

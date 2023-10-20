@@ -20,32 +20,30 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-@Data
 @Entity
-@Table(name="USERS")
-public class User implements UserDetails{
+@Table(name = "users") // Using plural table name
+@Data
+public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID_USER")
-		Integer idUser;
-	
-	@Column(name="FIRST_NAME")
-	String firstname;
-	
-	@Column(name="LAST_NAME")
-	 String lastname;
-	
-	@Column(name="EMAIL")
-	 String email;
-	
-	@JsonProperty(access = Access.WRITE_ONLY)
-	@Column(name="PASSWORD")
-	 String password;
-	
-	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
-	List<UserRole> userRoles;
+	@Column(name = "id") // Use 'id' as the primary key column name
+	private Integer id;
 
+	@Column(name = "first_name") // Use underscores for multi-word column names
+	private String firstName;
+
+	@Column(name = "last_name")
+	private String lastName;
+
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "password")
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private String password;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	List<UserRole> userRoles;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

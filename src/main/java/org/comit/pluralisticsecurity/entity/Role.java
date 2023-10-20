@@ -16,15 +16,15 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="role")
+@Table(name="roles")
 public class Role {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_ROLE")
+	@Column(name="id")
 	Integer idRole;
 	
-	@Column(name="NAME_ROLE")
+	@Column(name="name")
 	String nameRole;
 	
 	@OneToMany(mappedBy="role")

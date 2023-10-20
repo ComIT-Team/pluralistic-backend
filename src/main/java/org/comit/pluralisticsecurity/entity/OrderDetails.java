@@ -10,11 +10,14 @@ import lombok.Data;
 public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @OneToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne // Corrected mapping
-    private Order order; // Use the property name 'order' to match the 'mappedBy' attribute in the Order entity.
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }
