@@ -78,8 +78,8 @@ public class User implements UserDetails {
 	  for (UserRole temp : userRoles) 
 	  { 
 		 	  
-	 authorities.add(new SimpleGrantedAuthority(temp.getRole().getIdRole().toString()));
-		  //authorities.add(new SimpleGrantedAuthority("USER"));
+	// authorities.add(new SimpleGrantedAuthority(temp.getRole().getIdRole().toString()));
+		  authorities.add(new SimpleGrantedAuthority("USER"));
 	  }
 	  
 	  return authorities;
