@@ -1,5 +1,6 @@
 package org.comit.pluralisticsecurity.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -44,6 +45,12 @@ public class User implements UserDetails {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	List<UserRole> userRoles;
+
+	public User() {
+	}
+
+	public User(String s, String test, ArrayList<Object> objects) {
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
