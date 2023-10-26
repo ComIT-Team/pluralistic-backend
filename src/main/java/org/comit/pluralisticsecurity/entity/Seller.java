@@ -17,7 +17,7 @@ public class Seller {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID_SELLER")
+	@Column(name="ID")
 	private Integer id;
 	
 	@OneToOne

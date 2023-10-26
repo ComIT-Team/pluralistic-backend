@@ -16,17 +16,17 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="role")
+@Table(name="ROLES")
 public class Role {
 
 	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_ROLE")
+	@Column(name="ID")
 	private Integer idRole;
 	
-	@Column(name="NAME_ROLE")
+	@Column(name="NAME")
 	private String nameRole;
 	
 	@OneToMany(mappedBy="role",fetch = FetchType.EAGER)

@@ -18,21 +18,21 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="USER_ROLE")
+@Table(name="USER_ROLES")
 public class UserRole {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_USER_ROLE")
+	@Column(name="ID")
 	private Integer idUserRole;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="ID_USER")
+	@JoinColumn(name="USER_ID")
 	@JsonBackReference
 	private User user;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="ID_ROLE")
+	@JoinColumn(name="ROLE_ID")
 	private Role role;
 	
 }

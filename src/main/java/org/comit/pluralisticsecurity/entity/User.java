@@ -32,7 +32,7 @@ public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_USER")
+	@Column(name = "ID")
 	private Integer idUser;
 
 	@Column(name = "FIRST_NAME")
@@ -78,8 +78,8 @@ public class User implements UserDetails {
 	  for (UserRole temp : userRoles) 
 	  { 
 		 	  
-	 authorities.add(new SimpleGrantedAuthority(temp.getRole().getIdRole().toString()));
-		  //authorities.add(new SimpleGrantedAuthority("USER"));
+	// authorities.add(new SimpleGrantedAuthority(temp.getRole().getIdRole().toString()));
+		  authorities.add(new SimpleGrantedAuthority("USER"));
 	  }
 	  
 	  return authorities;
