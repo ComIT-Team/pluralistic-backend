@@ -2,6 +2,10 @@ package org.comit.pluralisticsecurity.advice;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+
+import org.hibernate.QueryException;
+import org.hibernate.query.SemanticException;
+import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;
@@ -38,7 +42,13 @@ public class CustomExceptionHandler {
                     .forStatusAndDetail(HttpStatusCode.valueOf(403), ex.getMessage());
             errorDetail.setProperty("access_denied_reason", "JWT Token already expired !");
         }
-      
+        if (ex instanceof QueryException) {
+            errorDetail = ProblemDetail
+                    .forStatusAndDetail(HttpStatusCode.valueOf(403), ex.getMessage());
+            errorDetail.setProperty("access_denied_reason", "Bad Request !");
+        }
+       
+        
         return errorDetail;
     }
 
