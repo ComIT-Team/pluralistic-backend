@@ -27,7 +27,6 @@ import lombok.Data;
 @Table(name = "USERS")
 public class User implements UserDetails {
 
-	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -54,7 +53,7 @@ public class User implements UserDetails {
 	@Column(name = "active")
 	private boolean active;
 
-	//constructor
+	// constructor
 	public User() {
 		super();
 	}
@@ -64,27 +63,22 @@ public class User implements UserDetails {
 		this.idUser = idUser;
 	}
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<UserRole> userRoles;
 
-
-
 	@Override
-	  public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-	  List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-	  
-	  for (UserRole temp : userRoles) 
-	  { 
-		 	  
-	// authorities.add(new SimpleGrantedAuthority(temp.getRole().getIdRole().toString()));
-		  authorities.add(new SimpleGrantedAuthority("USER"));
-	  }
-	  
-	  return authorities;
-	  }
-	
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		for (UserRole temp : userRoles) {
+
+			//authorities.add(new SimpleGrantedAuthority(temp.getRole().getIdRole().toString()));
+
+			 authorities.add(new SimpleGrantedAuthority("USER"));
+		}
+		return authorities;
+	}
+
 	@Override
 	public String getUsername() {
 		return email;
@@ -113,7 +107,5 @@ public class User implements UserDetails {
 
 		return true;
 	}
-
-	
 
 }

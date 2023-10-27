@@ -13,5 +13,6 @@ public interface AuthenticationService {
 	 JwtAuthenticationResponse signin(SignInRequest signInRequest);
 	 JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
 	//public void saveSellerDetails(SellerDetails sellerDetails,String username);
+	 JwtAuthenticationResponse sellerSignin(SignInRequest signinRequest);
 	
 }

@@ -7,8 +7,11 @@ import org.comit.pluralisticsecurity.dto.SignInRequest;
 import org.comit.pluralisticsecurity.dto.SignUpRequest;
 import org.comit.pluralisticsecurity.entity.User;
 import org.comit.pluralisticsecurity.service.AuthenticationService;
+import org.comit.pluralisticsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,9 @@ public class AuthenticationController {
 
 	 @Autowired
 	private  AuthenticationService authenticationService;
+	 
+	 @Autowired
+	 private UserService userService;
 
 	@PostMapping("/signup")
 	public ResponseEntity<User> signup(@RequestBody SignUpRequest signUpRequest) {
@@ -37,10 +43,26 @@ public class AuthenticationController {
 
 		return ResponseEntity.ok(authenticationService.signin(signinRequest));
 	}
+	
+	@PostMapping("/signin/seller")
+	public ResponseEntity<JwtAuthenticationResponse> sellerSignin(@RequestBody SignInRequest signinRequest) {
+		
+		return ResponseEntity.ok(authenticationService.sellerSignin(signinRequest));
+	}
 
 	@PostMapping("/refresh")
 	public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
 		return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
 	}
 
+	/*public User findCurrentUserDetails() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		System.out.println(currentPrincipalName);
+
+		User currentUser = this.userService.findCurrentUserID(currentPrincipalName);
+		
+		return currentUser;
+
+	}*/
 }
