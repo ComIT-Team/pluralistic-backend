@@ -10,11 +10,14 @@ import org.comit.pluralisticsecurity.dto.SignUpRequest;
 import org.comit.pluralisticsecurity.entity.User;
 
 public interface AuthenticationService {
-	
+
 	Optional<User> signup(SignUpRequest signUpRequest);
-	 JwtAuthenticationResponse signin(SignInRequest signInRequest);
-	 JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
-	//public void saveSellerDetails(SellerDetails sellerDetails,String username);
-	 JwtAuthenticationResponse sellerSignin(SignInRequest signinRequest);
-	
+
+	JwtAuthenticationResponse signin(SignInRequest signInRequest);
+
+	JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
+
+	// public void saveSellerDetails(SellerDetails sellerDetails,String username);
+	JwtAuthenticationResponse sellerSignin(SignInRequest signinRequest);
+
 }

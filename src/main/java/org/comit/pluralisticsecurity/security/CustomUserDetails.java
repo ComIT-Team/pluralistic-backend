@@ -6,12 +6,12 @@ import org.comit.pluralisticsecurity.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class CustomUserDetails  implements UserDetails{
-	
+public class CustomUserDetails implements UserDetails {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	User user;
-	
+
 	public CustomUserDetails(User user) {
 		super();
 		this.user = user;
@@ -19,7 +19,7 @@ public class CustomUserDetails  implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
+
 		return null;
 	}
 
