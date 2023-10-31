@@ -2,6 +2,8 @@ package org.comit.pluralisticsecurity.config;
 
 import java.io.IOException;
 
+import org.comit.pluralisticsecurity.security.CustomUserDetails;
+import org.comit.pluralisticsecurity.security.CustomUserDetailsService;
 import org.comit.pluralisticsecurity.service.JWTService;
 import org.comit.pluralisticsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CustomUserDetailsService customUserDetailsService;
 
 	private HandlerExceptionResolver exceptionResolver;
 
@@ -56,7 +61,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 			userEmail = jwtService.extractUserName(jwt);
 
 			if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
-				UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
+				UserDetails userDetails = customUserDetailsService.loadUserByUsername(userEmail);
+				//UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
 
 				if (jwtService.isTokenValid(jwt, userDetails)) {
 					SecurityContext securityContext = SecurityContextHolder.createEmptyContext();

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface UserRoleRepository extends JpaRepository<UserRole,Long> {
+public interface UserRoleRepository extends JpaRepository<UserRole,Integer> {
 
 			@Query(value = "SELECT * FROM USER_ROLES WHERE ROLE_ID = ?1", nativeQuery = true)
 			 UserRole findByRole(int role);

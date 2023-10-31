@@ -13,12 +13,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -27,14 +29,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 	// @Autowired
-	//private final JWTAuthenticationFilter jwtAuthenticationFilter;
-	 @Autowired
-	private  UserService userService;
+	// private final JWTAuthenticationFilter jwtAuthenticationFilter;
+	@Autowired
+	private UserService userService;
+
+	@Resource
+	UserDetailsService userDetailsService;
 
 	@Autowired
 	@Qualifier("handlerExceptionResolver")
 	private HandlerExceptionResolver exceptionResolver;
-	
+
 	@Bean
 	public JWTAuthenticationFilter jwtAuthenticationFilter() {
 		return new JWTAuthenticationFilter(exceptionResolver);
@@ -62,7 +67,8 @@ public class SecurityConfiguration {
 	public AuthenticationProvider authenticationProvider() {
 
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(userService.userDetailsService());
+		// authenticationProvider.setUserDetailsService(userService.userDetailsService());
+		authenticationProvider.setUserDetailsService(userDetailsService);
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
 

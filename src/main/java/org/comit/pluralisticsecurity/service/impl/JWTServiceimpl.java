@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.comit.pluralisticsecurity.entity.User;
+import org.comit.pluralisticsecurity.security.CustomUserDetails;
 import org.comit.pluralisticsecurity.service.JWTService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -22,17 +24,17 @@ public class JWTServiceimpl implements JWTService {
 	
 
 	// generate token
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(User user) {
 		
-		return Jwts.builder().setSubject(userDetails.getUsername()).setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder().setSubject(user.getEmail()).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 3)))  
 																						
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
 
 	}
 
-	public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-		return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
+	public String generateRefreshToken(Map<String, Object> extraClaims, User user) {
+		return Jwts.builder().setClaims(extraClaims).setSubject(user.getEmail())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + 604800000)) // JWT valid for 7 days
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
@@ -77,5 +79,7 @@ public class JWTServiceimpl implements JWTService {
 
 		return extractClaim(token, Claims::getExpiration).before(new Date());
 	}
+
+	
 
 }

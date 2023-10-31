@@ -1,5 +1,7 @@
 package org.comit.pluralisticsecurity.controller;
 
+import java.util.Optional;
+
 import org.comit.pluralisticsecurity.dto.JwtAuthenticationResponse;
 import org.comit.pluralisticsecurity.dto.RefreshTokenRequest;
 //import org.comit.pluralisticsecurity.dto.SellerDetails;
@@ -26,13 +28,13 @@ import lombok.RequiredArgsConstructor;
 public class AuthenticationController {
 
 	 @Autowired
-	private  AuthenticationService authenticationService;
+	  AuthenticationService authenticationService;
 	 
 	 @Autowired
-	 private UserService userService;
+	  UserService userService;
 
 	@PostMapping("/signup")
-	public ResponseEntity<User> signup(@RequestBody SignUpRequest signUpRequest) {
+	public ResponseEntity<Optional<User>> signup(@RequestBody SignUpRequest signUpRequest) {
 
 		return ResponseEntity.ok(authenticationService.signup(signUpRequest));
 
@@ -55,14 +57,4 @@ public class AuthenticationController {
 		return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
 	}
 
-	/*public User findCurrentUserDetails() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		System.out.println(currentPrincipalName);
-
-		User currentUser = this.userService.findCurrentUserID(currentPrincipalName);
-		
-		return currentUser;
-
-	}*/
-}
+	}
