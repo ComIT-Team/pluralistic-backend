@@ -29,12 +29,14 @@ public class PluralisticSecurityApplication implements CommandLineRunner {
 
 	public void run(String... args) {
 		UserRole userRole = new UserRole();
-		UserRole adminAccount = userRoleRepository.findByRole(RoleEnum.ADMIN.ordinal());
+		UserRole adminAccount = userRoleRepository.findByRole(Integer.valueOf(RoleEnum.ADMIN.ordinal()));
+		//UserRole adminAccount = userRoleRepository.findByRole(RoleEnum.ADMIN.toString());
 
 		if (null == adminAccount) {
 
 			User user = new User();
-			Role role = new Role(RoleEnum.ADMIN.ordinal());
+			Role role = new Role(RoleEnum.ADMIN.toString());
+			//Role role = new Role(RoleEnum.ADMIN.ordinal());
 
 			user.setEmail("admin@gmail.com");
 			user.setFirstname("admin");

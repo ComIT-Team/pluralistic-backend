@@ -4,6 +4,7 @@ package org.comit.pluralisticsecurity.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,14 +23,14 @@ public class Role {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer idRole;
 	
 	@Column(name="NAME")
 	private String nameRole;
 	
-	@OneToMany(mappedBy="role",fetch = FetchType.EAGER)
+	@OneToMany( mappedBy = "role",cascade = CascadeType.ALL, fetch = FetchType.EAGER) //mappedBy="role",fetch = FetchType.EAGER)
 	private List<UserRole> userRoles;
 
 	//constructor
@@ -43,14 +44,11 @@ public class Role {
 	}
 	
 	//constructor
-	public Role(int idRole) {
+	public Role(Integer idRole) {
 		super();
 		this.idRole = idRole;
 	}
 
-	@Override
-	public String toString() {
-		return "Role [idRole=" + idRole + ", nameRole=" + nameRole + ", userRoles=" + userRoles + "]";
-	}
+	
 
 }

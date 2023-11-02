@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 	public void changeRole(User user) {
 		
 		
-		Role role = new Role(RoleEnum.SELLER.ordinal());
+		Role role = new Role(Integer.valueOf(RoleEnum.SELLER.ordinal()));
 		
 		 userRoleRepository.changeRole(role.getIdRole(),user.getIdUser());
 		

@@ -2,8 +2,6 @@ package org.comit.pluralisticsecurity.entity;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -19,9 +17,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-@Data@Entity
+@Data
+@Entity
 @Table(name = "USERS")
-public class User  {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +46,10 @@ public class User  {
 	@Column(name = "active")
 	private boolean active;
 
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL , orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonManagedReference
+	private List<UserRole> userRoles;
+
 	// constructor
 	public User() {
 		super();
@@ -57,12 +60,4 @@ public class User  {
 		this.idUser = idUser;
 	}
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@JsonManagedReference
-	private List<UserRole> userRoles;
-
-	
-	
-	
-	
 }
