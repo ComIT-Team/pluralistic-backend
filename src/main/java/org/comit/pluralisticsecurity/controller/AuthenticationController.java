@@ -58,6 +58,12 @@ public class AuthenticationController {
 		
 		return ResponseEntity.ok(authenticationService.sellerSignin(signinRequest));
 	}
+	
+	@PostMapping("/signin/admin")
+	public ResponseEntity<JwtAuthenticationResponse> adminSignin(@RequestBody SignInRequest signinRequest) {
+		
+		return ResponseEntity.ok(authenticationService.adminSignin(signinRequest));
+	}
 
 	@PostMapping("/refresh")
 	public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {

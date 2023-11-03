@@ -17,9 +17,11 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
 	UserRole findRole(Integer idUser);
 
 	@Modifying(clearAutomatically = true) // (flushAutomatically = true) //(clearAutomatically = true) -> we make sure
-											// that the persistence context is cleared after our query execution.
+										// that the persistence context is cleared after our query execution.
 	@Transactional
 	@Query(value = "UPDATE USER_ROLES  SET ROLE_ID = ?1 WHERE USER_ID =?2", nativeQuery = true)
 	Integer changeRole(Integer id_role, Integer id_user);
 
+	@Query(value="SELECT * FROM USER_ROLES WHERE USER_ID = ?1", nativeQuery = true)
+	UserRole findIdRole(Integer id_user);
 }

@@ -29,5 +29,14 @@ public class Seller {
 	
 	@Column(name="INTERAC_ID")
 	private String interacID;
+
+	public Seller(User user, String sellername, String interacID) {
+		super();
+		this.user = user;
+		this.sellername = sellername;
+		this.interacID = interacID;
+	}
+	
+	
 	
 }

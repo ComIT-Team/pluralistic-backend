@@ -2,7 +2,6 @@ package org.comit.pluralisticsecurity.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 import org.comit.pluralisticsecurity.dto.JwtAuthenticationResponse;
@@ -13,6 +12,7 @@ import org.comit.pluralisticsecurity.entity.Role;
 import org.comit.pluralisticsecurity.entity.RoleEnum;
 import org.comit.pluralisticsecurity.entity.User;
 import org.comit.pluralisticsecurity.entity.UserRole;
+import org.comit.pluralisticsecurity.repository.RoleRepository;
 import org.comit.pluralisticsecurity.repository.UserRepository;
 import org.comit.pluralisticsecurity.repository.UserRoleRepository;
 import org.comit.pluralisticsecurity.service.AuthenticationService;
@@ -36,6 +36,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Autowired
 	private UserRoleRepository userRoleRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -67,56 +70,47 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		user.setUserRoles(new ArrayList<>());
 		user.getUserRoles().add(userRole);
-
-		// System.out.println("Printing User :" + user);
-
 		userRepository.save(user);
-		// return Optional.of(userRepository.findByEmail(user.getEmail()));
-
 		return userRepository.findById(user.getIdUser());
-
-		// return userRepository.getById(user.getIdUser());
 
 	}
 
 	public JwtAuthenticationResponse signin(SignInRequest signInRequest) {
-		System.out.println("reached Authentication service");
+
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
 		var currentuser = userRepository.findByEmail(signInRequest.getEmail());
-		// .orElseThrow(() -> new IllegalArgumentException("Invalid email or
-		// password"));
-		// .orElseThrow(() -> new IllegalArgumentException());
-		UserRole userRole = userRoleRepository.findRole(currentuser.getIdUser());
-		// if(userRole.getRole().getNameRole().toUpperCase() ==
-		// RoleEnum.USER.toString()) {
 
-		// if ((userRole.getRole().getIdRole()).intValue() == RoleEnum.USER.ordinal()) {
+		UserRole userRole = userRoleRepository.findIdRole(currentuser.getIdUser());
 
-		var jwt = jwtService.generateToken(currentuser);
-		var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), currentuser);
+		Role role = roleRepository.findNameRole(userRole.getRole().getIdRole());
 
-		JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
+		if (role.getNameRole().equals(RoleEnum.USER.name())) {
 
-		jwtAuthenticationResponse.setToken(jwt);
-		jwtAuthenticationResponse.setRefreshToken(refreshToken);
-		return jwtAuthenticationResponse;
-		// } else {
-		// throw new AccessDeniedException("Access denied due to insufficient
-		// authorisation");
-		// }
+			var jwt = jwtService.generateToken(currentuser);
+			var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), currentuser);
+
+			JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
+
+			jwtAuthenticationResponse.setToken(jwt);
+			jwtAuthenticationResponse.setRefreshToken(refreshToken);
+			return jwtAuthenticationResponse;
+		} else {
+			throw new AccessDeniedException("Access denied due to insufficient authorisation");
+		}
 	}
 
 	public JwtAuthenticationResponse sellerSignin(SignInRequest signInRequest) {
+
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
 		var currentuser = userRepository.findByEmail(signInRequest.getEmail());
-		// .orElseThrow(() -> new IllegalArgumentException("Invalid email or
-		// password"));
-		// .orElseThrow(()-> new IllegalArgumentException());
-		UserRole userRole = userRoleRepository.findRole(currentuser.getIdUser());
 
-		if ((userRole.getRole().getIdRole()).intValue() == RoleEnum.SELLER.ordinal()) {
+		UserRole userRole = userRoleRepository.findIdRole(currentuser.getIdUser());
+
+		Role role = roleRepository.findNameRole(userRole.getRole().getIdRole());
+
+		if (role.getNameRole().equals(RoleEnum.SELLER.name())) {
 			var jwt = jwtService.generateToken(currentuser);
 			var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), currentuser);
 
@@ -129,6 +123,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			throw new AccessDeniedException("Access denied due to insufficient authorisation");
 		}
 
+	}
+
+	public JwtAuthenticationResponse adminSignin(SignInRequest signInRequest) {
+
+		authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
+		var currentuser = userRepository.findByEmail(signInRequest.getEmail());
+
+		UserRole userRole = userRoleRepository.findIdRole(currentuser.getIdUser());
+
+		Role role = roleRepository.findNameRole(userRole.getRole().getIdRole());
+
+		if (role.getNameRole().equals(RoleEnum.ADMIN.name())) {
+
+			var jwt = jwtService.generateToken(currentuser);
+			var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), currentuser);
+
+			JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
+
+			jwtAuthenticationResponse.setToken(jwt);
+			jwtAuthenticationResponse.setRefreshToken(refreshToken);
+			return jwtAuthenticationResponse;
+		} else {
+			throw new AccessDeniedException("Access denied due to insufficient authorisation");
+		}
 	}
 
 	public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {

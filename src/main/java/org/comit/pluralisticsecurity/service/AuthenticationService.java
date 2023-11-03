@@ -19,5 +19,7 @@ public interface AuthenticationService {
 
 	// public void saveSellerDetails(SellerDetails sellerDetails,String username);
 	JwtAuthenticationResponse sellerSignin(SignInRequest signinRequest);
+	
+	JwtAuthenticationResponse adminSignin(SignInRequest signinRequest);
 
 }
