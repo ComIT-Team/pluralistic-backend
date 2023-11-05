@@ -33,35 +33,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-	 @Autowired
-	  AuthenticationService authenticationService;
-	 
-	 @Autowired
-	  UserService userService;
-	 
-	 
+	@Autowired
+	AuthenticationService authenticationService;
+
+	@Autowired
+	UserService userService;
+
 	@PostMapping("/signup")
 	public ResponseEntity<Optional<User>> signup(@RequestBody SignUpRequest signUpRequest) {
-		
+
 		return ResponseEntity.ok(authenticationService.signup(signUpRequest));
 
 	}
 
 	@PostMapping("/signin")
 	public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SignInRequest signinRequest) {
-		
+
 		return ResponseEntity.ok(authenticationService.signin(signinRequest));
 	}
-	
+
 	@PostMapping("/signin/seller")
 	public ResponseEntity<JwtAuthenticationResponse> sellerSignin(@RequestBody SignInRequest signinRequest) {
-		
+
 		return ResponseEntity.ok(authenticationService.sellerSignin(signinRequest));
 	}
-	
+
 	@PostMapping("/signin/admin")
 	public ResponseEntity<JwtAuthenticationResponse> adminSignin(@RequestBody SignInRequest signinRequest) {
-		
+
 		return ResponseEntity.ok(authenticationService.adminSignin(signinRequest));
 	}
 
@@ -70,4 +69,4 @@ public class AuthenticationController {
 		return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
 	}
 
-	}
+}
