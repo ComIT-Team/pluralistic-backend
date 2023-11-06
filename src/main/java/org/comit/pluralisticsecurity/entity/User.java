@@ -45,7 +45,7 @@ public class User {
 
 	@Column(name = "active")
 	private boolean active;
-
+	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL , orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<UserRole> userRoles;

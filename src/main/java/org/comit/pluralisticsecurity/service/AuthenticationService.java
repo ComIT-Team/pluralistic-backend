@@ -11,7 +11,7 @@ import org.comit.pluralisticsecurity.entity.User;
 
 public interface AuthenticationService {
 
-	Optional<User> signup(SignUpRequest signUpRequest);
+	Optional<User> signup(SignUpRequest signUpRequest)throws Exception;
 
 	JwtAuthenticationResponse signin(SignInRequest signInRequest);
 

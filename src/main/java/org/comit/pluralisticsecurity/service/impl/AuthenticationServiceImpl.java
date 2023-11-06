@@ -17,6 +17,7 @@ import org.comit.pluralisticsecurity.repository.UserRepository;
 import org.comit.pluralisticsecurity.repository.UserRoleRepository;
 import org.comit.pluralisticsecurity.service.AuthenticationService;
 import org.comit.pluralisticsecurity.service.JWTService;
+import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -51,14 +53,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Autowired
 	private JWTService jwtService;
 
-	public Optional<User> signup(SignUpRequest signUpRequest) {
+	public Optional<User> signup(SignUpRequest signUpRequest) throws Exception {
 
 		User user = new User();
 		Role role = new Role(RoleEnum.USER.toString());
 
 		UserRole userRole = new UserRole();
 
+		//String email = signUpRequest.getEmail();
+		User currentUser = userRepository.findByEmail(signUpRequest.getEmail());
+		if((currentUser)== null) {
 		user.setEmail(signUpRequest.getEmail());
+		}
+		else {
+			throw new EntityExistsException("Can't signup - Email already exists");
+		}
 		user.setFirstname(signUpRequest.getFirstName());
 		user.setLastname(signUpRequest.getLastName());
 		user.setUsername(signUpRequest.getUsername());

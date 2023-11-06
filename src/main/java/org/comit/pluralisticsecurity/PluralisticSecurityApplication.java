@@ -2,10 +2,12 @@ package org.comit.pluralisticsecurity;
 
 import java.util.ArrayList;
 
+import org.comit.pluralisticsecurity.dto.SignInRequest;
 import org.comit.pluralisticsecurity.entity.Role;
 import org.comit.pluralisticsecurity.entity.RoleEnum;
 import org.comit.pluralisticsecurity.entity.User;
 import org.comit.pluralisticsecurity.entity.UserRole;
+import org.comit.pluralisticsecurity.repository.RoleRepository;
 import org.comit.pluralisticsecurity.repository.UserRepository;
 import org.comit.pluralisticsecurity.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,23 +23,27 @@ public class PluralisticSecurityApplication implements CommandLineRunner {
 	private UserRepository userRepository;
 
 	@Autowired
+	private RoleRepository roleRepository;
+
+	@Autowired
 	private UserRoleRepository userRoleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PluralisticSecurityApplication.class, args);
 	}
 
-	public void run(String... args) {
-		UserRole userRole = new UserRole();
-		UserRole adminAccount = userRoleRepository.findByRole(Integer.valueOf(RoleEnum.ADMIN.ordinal()));
-		//UserRole adminAccount = userRoleRepository.findByRole(RoleEnum.ADMIN.toString());
+	public void run(SignInRequest signInRequest, String... args) {
 
-		if (null == adminAccount) {
+		
+		var currentUser = userRepository.findByEmail(signInRequest.getEmail());
+		UserRole userRoles = userRoleRepository.findIdRole(currentUser.getIdUser());
+		Role role = roleRepository.findNameRole(userRoles.getRole().getIdRole());
+
+		if (!role.getNameRole().equals(RoleEnum.ADMIN.name())) {
 
 			User user = new User();
-			Role role = new Role(RoleEnum.ADMIN.toString());
-			//Role role = new Role(RoleEnum.ADMIN.ordinal());
-
+			Role roles = new Role(RoleEnum.ADMIN.toString());
+		
 			user.setEmail("admin@gmail.com");
 			user.setFirstname("admin");
 			user.setLastname("admin");
@@ -45,15 +51,21 @@ public class PluralisticSecurityApplication implements CommandLineRunner {
 			user.setActive(true);
 
 			user.setPassword(new BCryptPasswordEncoder().encode("admin"));
-			userRole.setRole(role);
-			userRole.setUser(user);
+			userRoles.setRole(roles);
+			userRoles.setUser(user);
 
 			user.setUserRoles(new ArrayList<>());
-			user.getUserRoles().add(userRole);
+			user.getUserRoles().add(userRoles);
 
 			userRepository.save(user);
 
 		}
+
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		// TODO Auto-generated method stub
 
 	}
 

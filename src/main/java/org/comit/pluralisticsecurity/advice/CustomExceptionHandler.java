@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.persistence.EntityExistsException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -34,6 +35,10 @@ public class CustomExceptionHandler {
 		if (ex instanceof ExpiredJwtException) {
 			errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), ex.getMessage());
 			errorDetail.setProperty("access_denied_reason", "JWT Token already expired !");
+		}
+		if(ex instanceof EntityExistsException) {
+			errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), ex.getMessage());
+			errorDetail.setProperty("access_denied_reason", "Email already exists");
 		}
 
 		return errorDetail;
