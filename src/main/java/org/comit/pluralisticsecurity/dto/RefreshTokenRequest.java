@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class RefreshTokenRequest {
 	
-	String token;
+	private String token;
 
 	/*public String getToken() {
 		return token;
@@ -13,7 +13,7 @@ public class RefreshTokenRequest {
 
 	public void setToken(String token) {
 		this.token = token;
-	}
-	*/
+	}*/
+	
 
 }
