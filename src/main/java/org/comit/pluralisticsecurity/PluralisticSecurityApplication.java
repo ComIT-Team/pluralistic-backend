@@ -1,7 +1,6 @@
 package org.comit.pluralisticsecurity;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import org.comit.pluralisticsecurity.entity.Role;
 import org.comit.pluralisticsecurity.entity.RoleEnum;
@@ -17,45 +16,45 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class PluralisticSecurityApplication implements CommandLineRunner {
-	
+
 	@Autowired
-	private  UserRepository userRepository ;
-	
+	private UserRepository userRepository;
+
 	@Autowired
 	private UserRoleRepository userRoleRepository;
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(PluralisticSecurityApplication.class, args);
 	}
+
 	public void run(String... args) {
 		UserRole userRole = new UserRole();
-		Optional<UserRole> adminAccount = userRoleRepository.findByRole(RoleEnum.ADMIN.ordinal());
-		//System.out.println(adminAccount);
-		//Optional<UserRole> adminAccount =  userRepository.findByRole(RoleEnum.ADMIN);
-		if(null == adminAccount) {
-			
+		UserRole adminAccount = userRoleRepository.findByRole(Integer.valueOf(RoleEnum.ADMIN.ordinal()));
+		//UserRole adminAccount = userRoleRepository.findByRole(RoleEnum.ADMIN.toString());
+
+		if (null == adminAccount) {
+
 			User user = new User();
-			Role role = new Role(RoleEnum.ADMIN.ordinal());
-			
-			
+			Role role = new Role(RoleEnum.ADMIN.toString());
+			//Role role = new Role(RoleEnum.ADMIN.ordinal());
+
 			user.setEmail("admin@gmail.com");
-			user.setFirstName("admin");
-			user.setLastName("admin");
-			//user.setRole(Roles.ADMIN);
+			user.setFirstname("admin");
+			user.setLastname("admin");
+			user.setUsername("admin");
+			user.setActive(true);
+
 			user.setPassword(new BCryptPasswordEncoder().encode("admin"));
 			userRole.setRole(role);
 			userRole.setUser(user);
-			
+
 			user.setUserRoles(new ArrayList<>());
 			user.getUserRoles().add(userRole);
-			
-			
+
 			userRepository.save(user);
-			
-			
+
 		}
-		
-		
+
 	}
 
 }
