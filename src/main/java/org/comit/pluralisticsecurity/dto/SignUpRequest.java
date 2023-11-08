@@ -5,16 +5,20 @@ import lombok.Data;
 @Data
 public class SignUpRequest {
 	
-	 String firstName;
+	 private String firstName;
 	
-	 String lastName;
+	 private String lastName;
 	
-	 String email;
+	 private String email;
 	
-	 String password;
+	 private String password;
+	  
+	 private String username;
+	  
+	 private Boolean active;
 
 
-/*	public String getFirstName() {
+	/*public String getFirstName() {
 		return firstName;
 	}
 
@@ -40,13 +44,13 @@ public class SignUpRequest {
 
 	public String getPassword() {
 		return password;
-	}
+	}*/
 
-	public void setPassword(String password) {
+	/*public void setPassword(String password) {
 		this.password = password;
-	}
+	}*/
 
-	*/
+	
 	
 	
 }

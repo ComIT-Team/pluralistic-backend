@@ -1,18 +1,15 @@
 package org.comit.pluralisticsecurity.entity;
 
-import java.util.Collection;
 import java.util.List;
 
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,96 +17,47 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-@Entity
-@Table(name = "users") // Using plural table name
 @Data
-public class User implements UserDetails {
+@Entity
+@Table(name = "USERS")
+public class User {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id") // Use 'id' as the primary key column name
-	private Integer id;
+	@Column(name = "ID")
+	private Integer idUser;
 
-	@Column(name = "first_name") // Use underscores for multi-word column names
-	private String firstName;
+	@Column(name = "FIRST_NAME")
+	private String firstname;
 
-	@Column(name = "last_name")
-	private String lastName;
+	@Column(name = "LAST_NAME")
+	private String lastname;
 
-	@Column(name = "email")
+	@Column(name = "EMAIL")
 	private String email;
 
-	@Column(name = "password")
+	@Column(name = "USERNAME")
+	private String username;
+
 	@JsonProperty(access = Access.WRITE_ONLY)
+	@Column(name = "PASSWORD")
 	private String password;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	List<UserRole> userRoles;
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		//return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-		//return List.of(new SimpleGrantedAuthority(userRoles.iterator()));
-		return null;
-	}
-
-
-	@Override
-	public String getUsername() {
-		return email;
-	}
-
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-
-	@Override
-	public boolean isAccountNonLocked() {
+	@Column(name = "active")
+	private boolean active;
 	
-		return true;
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL , orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonManagedReference
+	private List<UserRole> userRoles;
+
+	// constructor
+	public User() {
+		super();
 	}
 
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
+	// constructor
+	public User(Integer idUser) {
+		this.idUser = idUser;
 	}
-
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-	
-	public List<UserRole> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(List<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
-
-
-/*	public Collection<? extends GrantedAuthority> getAuthorities(
-			  Collection<Role> roles) {
-			    List<GrantedAuthority> authorities
-			      = new ArrayList<>();
-			    for (Role role: roles) {
-			        authorities.add(new SimpleGrantedAuthority(role.getNameRole()));
-			        role.getPrivileges().stream()
-			         .map(p -> new SimpleGrantedAuthority(p.getName()))
-			         .forEach(authorities::add);
-			    }
-			    
-			    return authorities;
-			}*/
-
-
-
-	
 
 }
-

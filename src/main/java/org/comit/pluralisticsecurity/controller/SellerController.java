@@ -5,17 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/api/v1/seller")
 
-@RequiredArgsConstructor
-public class AdminController {
-	
+public class SellerController {
+
 	@GetMapping
 	public ResponseEntity<String> sayHello(){
-		return ResponseEntity.ok("Hi Admin");
+		System.out.println("Hi Seller");
+		return ResponseEntity.ok("Hi Seller");
 	}
-
 }
