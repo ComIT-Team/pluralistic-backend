@@ -15,9 +15,8 @@ public class CustomUserDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	User user;
-	
-	
-	//UserRole userRole = new UserRole();
+
+	// UserRole userRole = new UserRole();
 	public CustomUserDetails(User user) {
 		super();
 		this.user = user;
@@ -26,10 +25,10 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		for(UserRole temp :user.getUserRoles() ) {
+		for (UserRole temp : user.getUserRoles()) {
 			authorities.add(new SimpleGrantedAuthority(temp.getRole().getNameRole()));
 		}
-	return authorities;	
+		return authorities;
 	}
 
 	@Override
