@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
 	public void saveSellerDetails(SellerRequest sellerRequest, User user) {
 		
 		User currentUser_Seller = new User(user.getIdUser());
-		Seller seller = new Seller(currentUser_Seller,sellerRequest.getSellerName(),sellerRequest.getSellerName());
+		Seller seller = new Seller(currentUser_Seller,sellerRequest.getSellerName(),sellerRequest.getInteracId());
 		//seller.setUser(currentUser_Seller);
 		//seller.setSellername(sellerRequest.getSellerName());
 		//seller.setInteracID(sellerRequest.getInteracId());
