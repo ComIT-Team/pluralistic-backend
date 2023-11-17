@@ -1,6 +1,7 @@
 package org.comit.pluralisticsecurity.repository;
 
 import org.comit.pluralisticsecurity.entity.User;
+import org.hibernate.mapping.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,5 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query(value = "SELECT * FROM USERS WHERE EMAIL = ?1", nativeQuery = true)
 	User findCurrentUserID(String currentPrincipalName);
 
+	//@Query(value = "SELECT * FROM USERS ", nativeQuery = true)
+	//List<User> getAllUsers();
 	
 }

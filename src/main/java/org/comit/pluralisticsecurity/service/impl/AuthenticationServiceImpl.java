@@ -56,11 +56,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public Optional<User> signup(SignUpRequest signUpRequest) throws Exception {
 
 		User user = new User();
-		Role role = new Role(RoleEnum.USER.toString());
+		Role role = new Role(Integer.valueOf(RoleEnum.USER.ordinal()));
+		//Role role = new Role(RoleEnum.USER.toString());
 
 		UserRole userRole = new UserRole();
 
-		//String email = signUpRequest.getEmail();
+		//Checking whether the email already exists or not
 		User currentUser = userRepository.findByEmail(signUpRequest.getEmail());
 		if((currentUser)== null) {
 		user.setEmail(signUpRequest.getEmail());
@@ -76,7 +77,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		userRole.setRole(role);
 		userRole.setUser(user);
-
 		user.setUserRoles(new ArrayList<>());
 		user.getUserRoles().add(userRole);
 		userRepository.save(user);
@@ -102,7 +102,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
 
 			jwtAuthenticationResponse.setToken(jwt);
-			jwtAuthenticationResponse.setRefreshToken(refreshToken);
+			//jwtAuthenticationResponse.setRefreshToken(refreshToken);
 			return jwtAuthenticationResponse;
 		} else {
 			throw new AccessDeniedException("Access denied due to insufficient authorisation");
@@ -126,7 +126,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
 
 			jwtAuthenticationResponse.setToken(jwt);
-			jwtAuthenticationResponse.setRefreshToken(refreshToken);
+			//jwtAuthenticationResponse.setRefreshToken(refreshToken);
 			return jwtAuthenticationResponse;
 		} else {
 			throw new AccessDeniedException("Access denied due to insufficient authorisation");
@@ -152,7 +152,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
 
 			jwtAuthenticationResponse.setToken(jwt);
-			jwtAuthenticationResponse.setRefreshToken(refreshToken);
+			//jwtAuthenticationResponse.setRefreshToken(refreshToken);
 			return jwtAuthenticationResponse;
 		} else {
 			throw new AccessDeniedException("Access denied due to insufficient authorisation");
@@ -169,7 +169,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
 
 			jwtAuthenticationResponse.setToken(jwt);
-			jwtAuthenticationResponse.setRefreshToken(refreshTokenRequest.getToken());
+			//jwtAuthenticationResponse.setRefreshToken(refreshTokenRequest.getToken());
 			return jwtAuthenticationResponse;
 
 		}

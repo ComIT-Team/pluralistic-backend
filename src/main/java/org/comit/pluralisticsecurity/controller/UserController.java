@@ -43,6 +43,8 @@ public class UserController {
 		return ResponseEntity.ok("Congratulations!");
 	}
 
+	
+	
 	// method to find current userdetails
 
 	public User findCurrentUserDetails() {
