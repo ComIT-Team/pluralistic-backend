@@ -1,5 +1,6 @@
 package org.comit.pluralisticsecurity.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.comit.pluralisticsecurity.dto.SellerRequest;
 import org.comit.pluralisticsecurity.entity.User;
 import org.comit.pluralisticsecurity.service.UserService;
@@ -7,17 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
-
+@CrossOrigin(origins = "http://127.0.0.1:5173") // Replace with your frontend URL
 @RequiredArgsConstructor
 
 public class UserController {
