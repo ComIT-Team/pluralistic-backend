@@ -1,5 +1,7 @@
 package org.comit.pluralisticsecurity.repository;
 
+import java.util.Optional;
+
 import org.comit.pluralisticsecurity.entity.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +26,12 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
 
 	@Query(value="SELECT * FROM USER_ROLES WHERE USER_ID = ?1", nativeQuery = true)
 	UserRole findIdRole(Integer id_user);
+	
+	@Modifying
+	@Transactional
+	@Query(value ="DELETE FROM USER_ROLES WHERE USER_ID = ?1",nativeQuery = true)
+	void deleteUser(Integer id_user);
+	
+	@Query(value = "SELECT * FROM USER_ROLES WHERE ROLE_ID = ?1",nativeQuery = true)
+	UserRole findAdminRole(Integer id_role);
 }

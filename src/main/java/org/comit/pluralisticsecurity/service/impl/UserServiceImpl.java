@@ -1,5 +1,9 @@
 package org.comit.pluralisticsecurity.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.comit.pluralisticsecurity.dto.SellerRequest;
 import org.comit.pluralisticsecurity.entity.Role;
 import org.comit.pluralisticsecurity.entity.RoleEnum;
@@ -29,55 +33,93 @@ public class UserServiceImpl implements UserService {
 	private SellerRepository sellerRepository;
 
 	@Autowired
-	private  UserRoleRepository userRoleRepository;
-	
+	private UserRoleRepository userRoleRepository;
+
 	@Autowired
 	private RoleRepository roleRepository;
 
-	/*@Override
-	public UserDetailsService userDetailsService() {
-		return new UserDetailsService() {
-			
-			@Override
-			public UserDetails loadUserByUsername(String username){
 
-				return userRepository.findByEmail(username)
-						.orElseThrow(() -> new UsernameNotFoundException("User not Found"));
-			}
-		};
-	}*/
-	
 
-	
 	public User findCurrentUserID(String currentPrincipalName) {
 
 		return this.userRepository.findCurrentUserID(currentPrincipalName);
 	}
 
-	
 	public void saveSellerDetails(SellerRequest sellerRequest, User user) {
-		
+
 		User currentUser_Seller = new User(user.getIdUser());
-		Seller seller = new Seller(currentUser_Seller,sellerRequest.getSellerName(),sellerRequest.getInteracId());
-		//seller.setUser(currentUser_Seller);
-		//seller.setSellername(sellerRequest.getSellerName());
-		//seller.setInteracID(sellerRequest.getInteracId());
+		Seller seller = new Seller(currentUser_Seller, sellerRequest.getSellerName(), sellerRequest.getInteracId());
+
 		sellerRepository.save(seller);
-		
+
 	}
 
-	
 	public void changeRole(User user) {
-		
-		
-		//Role role = new Role(Integer.valueOf(RoleEnum.SELLER.ordinal()));
-		Role roleSeller = new Role(RoleEnum.SELLER.name());
-		//roleSeller.setNameRole(RoleEnum.SELLER.name().toUpperCase());
-		UserRole userRole = userRoleRepository.findIdRole(user.getIdUser());
-		roleRepository.updateRole(roleSeller.getNameRole(),userRole.getRole().getIdRole());
-		// userRoleRepository.changeRole(role.getIdRole(),user.getIdUser());
-		
+		Role role = new Role(Integer.valueOf(RoleEnum.SELLER.ordinal()));
+		userRoleRepository.changeRole(role.getIdRole(), user.getIdUser());
+
 	}
 
-	
+	@Override
+	public void deleteUser(Integer idUser) {
+
+		userRoleRepository.deleteUser(idUser);
+
+		userRepository.deleteById(idUser);
+
+	}
+
+	@Override
+	public void deleteSeller(Integer idUser) {
+
+		sellerRepository.deleteSeller(idUser);
+		deleteUser(idUser);
+
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+
+		List<User> usersList = new ArrayList<>();
+
+		List<User> users = userRepository.findAll();
+
+		for (User temp : users) {
+
+			UserRole userRole = userRoleRepository.findRole(temp.getIdUser());
+
+			Role role = roleRepository.findNameRole(userRole.getRole().getIdRole());
+
+			if (role.getNameRole().equals("USER")) {
+
+				usersList.add(temp);
+
+			}
+		}
+
+		return usersList;
+	}
+
+	@Override
+	public List<User> getAllSellers() {
+
+		List<User> usersList = new ArrayList<>();
+
+		List<User> users = userRepository.findAll();
+
+		for (User temp : users) {
+
+			UserRole userRole = userRoleRepository.findRole(temp.getIdUser());
+
+			Role role = roleRepository.findNameRole(userRole.getRole().getIdRole());
+
+			if (role.getNameRole().equals("SELLER")) {
+
+				usersList.add(temp);
+
+			}
+		}
+
+		return usersList;
+	}
 }

@@ -2,7 +2,6 @@ package org.comit.pluralisticsecurity;
 
 import java.util.ArrayList;
 
-import org.comit.pluralisticsecurity.dto.SignInRequest;
 import org.comit.pluralisticsecurity.entity.Role;
 import org.comit.pluralisticsecurity.entity.RoleEnum;
 import org.comit.pluralisticsecurity.entity.User;
@@ -15,28 +14,23 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class DemoRunner implements CommandLineRunner {
-
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
-	private RoleRepository roleRepository;
-
-	@Autowired
 	private UserRoleRepository userRoleRepository;
-	
-public void run(SignInRequest signInRequest, String... args) {
 
-		
-		var currentUser = userRepository.findByEmail(signInRequest.getEmail());
-		UserRole userRoles = userRoleRepository.findIdRole(currentUser.getIdUser());
-		Role role = roleRepository.findNameRole(userRoles.getRole().getIdRole());
+	@Override
+	public void run(String... args) throws Exception {
 
-		if (!role.getNameRole().equals(RoleEnum.ADMIN.name())) {
+		UserRole adminRole = userRoleRepository.findAdminRole(Integer.valueOf(RoleEnum.ADMIN.ordinal()));
 
+		if (null == adminRole) {
 			User user = new User();
-			Role roles = new Role(RoleEnum.ADMIN.toString());
-		
+			UserRole userRoles = new UserRole();
+			Role roles = new Role(Integer.valueOf(RoleEnum.ADMIN.ordinal()));
+			// Role roles = new Role(RoleEnum.ADMIN.toString());
+
 			user.setEmail("admin@gmail.com");
 			user.setFirstname("admin");
 			user.setLastname("admin");
@@ -51,16 +45,8 @@ public void run(SignInRequest signInRequest, String... args) {
 			user.getUserRoles().add(userRoles);
 
 			userRepository.save(user);
-
 		}
 
 	}
-
-	@Override
-	public void run(String... args) throws Exception {
-
-	}
-
-
 
 }

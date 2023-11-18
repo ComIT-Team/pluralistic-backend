@@ -29,8 +29,10 @@ public class UserRole {
 	@JsonBackReference
 	private User user;
 
-	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ROLE_ID")
+	@JsonBackReference
 	private Role role;
 
 }
