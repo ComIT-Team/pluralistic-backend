@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-@CrossOrigin(origins = "http://127.0.0.1:5173") // Replace with your frontend URL
+@CrossOrigin(origins = "https://comitpluralistic.netlify.app") // Replace with your frontend URL
 
 @RequiredArgsConstructor
 public class AuthenticationController {
@@ -27,7 +27,7 @@ public class AuthenticationController {
 	UserService userService;
 
 	@PostMapping("/signup")
-	@CrossOrigin(origins = "http://127.0.0.1:5173") // Replace with your frontend URL
+	@CrossOrigin(origins = "https://comitpluralistic.netlify.app") // Replace with your frontend URL
 	public ResponseEntity<Optional<User>> signup(@RequestBody SignUpRequest signUpRequest) throws Exception{
 
 		return ResponseEntity.ok(authenticationService.signup(signUpRequest));
@@ -35,7 +35,7 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/signin")
-	@CrossOrigin(origins = "http://127.0.0.1:5173") // Replace with your frontend URL
+	@CrossOrigin(origins = "https://comitpluralistic.netlify.app") // Replace with your frontend URL
 
 	public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SignInRequest signinRequest) {
 
@@ -43,14 +43,14 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/signin/seller")
-	@CrossOrigin(origins = "http://127.0.0.1:5173") // Replace with your frontend URL
+	@CrossOrigin(origins = "https://comitpluralistic.netlify.app") // Replace with your frontend URL
 	public ResponseEntity<JwtAuthenticationResponse> sellerSignin(@RequestBody SignInRequest signinRequest) {
 
 		return ResponseEntity.ok(authenticationService.sellerSignin(signinRequest));
 	}
 
 	@PostMapping("/signin/admin")
-	@CrossOrigin(origins = "http://127.0.0.1:5173") // Replace with your frontend URL
+	@CrossOrigin(origins = "https://comitpluralistic.netlify.app") // Replace with your frontend URL
 	public ResponseEntity<JwtAuthenticationResponse> adminSignin(@RequestBody SignInRequest signinRequest) {
 
 		return ResponseEntity.ok(authenticationService.adminSignin(signinRequest));
