@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
-@CrossOrigin(origins = "http://127.0.0.1:5173") // Replace with your frontend URL
+@CrossOrigin(origins = "https://comitpluralistic.netlify.app") // Replace with your frontend URL
 @RequiredArgsConstructor
 
 public class UserController {
